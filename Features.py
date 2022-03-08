@@ -6,10 +6,10 @@ import numpy as np
 import open3d as o3d
 import math as m
 
-import Hierarchy as hc
-import ClusterComparing as cc
-import KMeans
-import DBSCAN
+import RF
+import SVM
+
+
 print("start program for importing files")
 
 import os

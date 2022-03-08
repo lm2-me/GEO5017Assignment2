@@ -25,10 +25,6 @@ print(features_only)
 
 #Main
 if __name__ == "__main__":
-    ft.pointCloudDirectory = ft.importFiles()
-    ft.object_features = np.array(ft.allObjectProperties(pointCloudDirectory))
-    ft.normalized_object_features = ft.normalize_features(object_features)
-
-
-
-
+    #ft.pointCloudDirectory = ft.importFiles()
+    #ft.object_features = np.array(ft.allObjectProperties(ft.pointCloudDirectory))
+    #ft.normalized_object_features = ft.normalize_features(ft.object_features)
