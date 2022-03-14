@@ -1,12 +1,10 @@
-<<<<<<< HEAD
-#We can also use sklearn.metrics.accuracy_score
-#But for 'per class accuracy' we may need to do that manually
-=======
 
+# Use these?
+# Overall accuracy
+# sklearn.metrics.accuracy_score(y_true, y_pred, *[, ...])
 
-#Overall Accuracy
+# Mean per-class accuracy
+# sklearn.metrics.average_precision_score(y_true, ...)
 
-#Mean per-class accuracy
-
-#confusion matrix
->>>>>>> 4bbd1085360f65b522ffeaa7da3520e345070bcf
+# Confusion Matrix
+# sklearn.metrics.confusion_matrix(y_true, y_pred, *)
