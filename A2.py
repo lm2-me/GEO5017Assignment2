@@ -5,6 +5,7 @@ import matplotlib.pyplot as plt
 import os
 
 import Features as ft
+import RF
 
 
 ### import csv file to read features, remove before sumbitting
@@ -20,7 +21,6 @@ print(cwd)
 dataload = np.loadtxt('features_norm.csv', delimiter=',')
 
 features_only = dataload[:,1:]
-
 print(features_only)
 
 #Main
@@ -28,3 +28,8 @@ if __name__ == "__main__":
     #ft.pointCloudDirectory = ft.importFiles()
     #ft.object_features = np.array(ft.allObjectProperties(ft.pointCloudDirectory))
     #ft.normalized_object_features = ft.normalize_features(ft.object_features)
+
+    X_train, X_test, y_train, y_test = RF.splitdata(features_only)
+    RF.randomforest(X_train, X_test, y_train, y_test)
+
+
