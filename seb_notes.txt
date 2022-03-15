@@ -4,13 +4,17 @@ Test accuracy
 Do we have a ground truth, y_true set? Our cluster outputs are out y_pred sets
 y_true should perhaps be labeled, ['building', 'building'... 'car' car', 'car', ... 'fence', 'fence',... 'pole',...'tree']
 
+
+
 (Analyse feature selection)
+
+
 
 Overall accuracy
 sklearn.metrics.accuracy_score(y_true, y_pred, *[, ...])
 
 Mean per-class accuracy
-sklearn.metrics.average_precision_score(y_true, ...)
+sklearn.metrics.balanced_accuracy_score(y_true, ...)
 
 Confusion Matrix
 sklearn.metrics.confusion_matrix(y_true, y_pred, *)
@@ -20,6 +24,8 @@ sklearn.metrics.confusion_matrix(y_true, y_pred, *)
 
 Plot learning curve, size of training set and Overall Accuracy, against each other.
 
+
+Make 3D graphs of features?
 
 
 Other
