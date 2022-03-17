@@ -22,13 +22,14 @@ def randomforest(X_train, X_test, y_train, y_test):
     #max_depth and min_samples_leaf do not need to be set because our data set is small
 
     #create classifier object
-    clf = RandomForestClassifier(max_depth=2, random_state=0)
+    clf = RandomForestClassifier(n_estimators=200, criterion='gini', max_features='auto', bootstrap=True, max_samples=None, max_depth=2, random_state=0)
     #train classifier object
     clf.fit(X_train, y_train)
     #test classifier
     y_pred = clf.predict(X_test)
 
-    correct_results = np.count_nonzero(y_pred == y_test)
+    #correct_results = np.count_nonzero(y_pred == y_test)
+    #print(len(y_test))
+    #print(correct_results)
 
-    print(len(y_test))
-    print(correct_results)
+    return y_pred, y_test

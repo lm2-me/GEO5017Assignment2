@@ -5,6 +5,7 @@ import matplotlib.pyplot as plt
 import os
 
 import Features as ft
+import Evaluation as ev
 import RF
 
 
@@ -21,7 +22,10 @@ print(cwd)
 dataload = np.loadtxt('features_norm.csv', delimiter=',')
 
 features_only = dataload[:,1:]
-print(features_only)
+#print(len(features_only))
+#print(features_only)
+
+y_true = np.loadtxt('y_true.csv', dtype='str', delimiter='\n')
 
 #Main
 if __name__ == "__main__":
@@ -30,6 +34,14 @@ if __name__ == "__main__":
     #ft.normalized_object_features = ft.normalize_features(ft.object_features)
 
     X_train, X_test, y_train, y_test = RF.splitdata(features_only)
-    RF.randomforest(X_train, X_test, y_train, y_test)
+    y_predRF, y_testRF = RF.randomforest(X_train, X_test, y_train, y_test)
+
+    rf_oa = ev.overallAccuracy(y_testRF, y_predRF)
+    rf_mpa = ev.meanPerClassAccuracy(y_testRF, y_predRF)
+    rf_cm = ev.confusionMatrix(y_testRF, y_predRF)
+
+    print('Random Forest: Overall Accuracy', rf_oa)
+    print('Random Forest: Mean Per-Class Accuracy', rf_mpa)
+    print('Random Forest: Confusion Matrix \n', rf_cm)
 
 
