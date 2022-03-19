@@ -23,6 +23,8 @@ sklearn.metrics.confusion_matrix(y_true, y_pred, *)
 
 
 Plot learning curve, size of training set and Overall Accuracy, against each other.
+Plot with changing C parameter a few times. Plot with another hyperparameter change?
+Plot of original label distributions in feature space.
 
 
 Make 3D graphs of features?
