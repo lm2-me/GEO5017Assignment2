@@ -7,8 +7,7 @@ from sklearn import svm
 
 
 
-def splitdata(features_only):
-    y_true = np.loadtxt('y_true.csv', dtype=str)
+def splitdata(features_only, y_true):
     X = features_only
     y = y_true
 

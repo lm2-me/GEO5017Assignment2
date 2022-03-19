@@ -77,6 +77,9 @@ def allObjectProperties(pointCloudDirectory):
     print('Evaluating point cloud features')
     for pc in pointCloudDirectory:
         print ('now working on point cloud', str(pc), end="\r")
+
+        ###remove before submitting
+
         #Get current point cloud
         currentPointCloud = currentPC(pointCloudDirectory, pc)
         currentPointCloud_o3d = currento3dPCfile(pc)
@@ -86,13 +89,13 @@ def allObjectProperties(pointCloudDirectory):
 
         #Get properties by calling related function, only getting 3 best features after analysis of all features
         height = objectHeight(currentPointCloud)
-        #volume = convexHull(currentPointCloud_o3d)
+        volume = convexHull(currentPointCloud_o3d)
         avg_height = objectAverageHeight(currentPointCloud)
-        #area, ratio = areaBase(currentPointCloud_o3d)
+        area, ratio = areaBase(currentPointCloud_o3d)
         num_planes = planarityPC(currentPointCloud_o3d)
 
-        #object_features.append([i, height, volume, avg_height, area, ratio, num_planes])
-        object_features.append([i, height, avg_height, num_planes])
+        object_features.append([i, height, volume, avg_height, area, ratio, num_planes])
+        #object_features.append([height, avg_height, num_planes])
         
         i += 1
         #print(str(i) + " height: " + str(height) + " volume: " + str(volume) + " average height: " + str(avg_height) + " area: " + str(area) + " ratio: " + str(ratio) + " num planes: " + str(num_planes))
