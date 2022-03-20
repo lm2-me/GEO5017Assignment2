@@ -34,12 +34,13 @@ if __name__ == "__main__":
     pointCloudDirectory = ft.importFiles()
     object_features = np.array(ft.allObjectProperties(pointCloudDirectory))
     features_only = ft.normalize_features(object_features)
+    print(features_only)
 
     ##dataload = np.loadtxt('features_norm.csv', delimiter=',')
 
     ## = dataload[:,1:]
     
-
+    #####
     X_train, X_test, y_train, y_test = RF.splitdata(features_only, y_true)
     y_predRF, y_testRF = RF.randomforest(X_train, X_test, y_train, y_test)
 
