@@ -6,8 +6,8 @@ import numpy as np
 import open3d as o3d
 import math as m
 
-import RF
-import SVM
+from scipy.spatial import ConvexHull, convex_hull_plot_2d
+import matplotlib.pyplot as plt
 
 
 print("start program for importing files")
@@ -84,8 +84,6 @@ def allObjectProperties(pointCloudDirectory):
 
         #Visualize Point Cloud
         #visualizePC(pc)
-
-        if i > 20: break
         
         #Get properties by calling related function, only getting 3 best features after analysis of all features
         height = objectHeight(currentPointCloud)
@@ -96,25 +94,15 @@ def allObjectProperties(pointCloudDirectory):
         rectangle_deviation = rectangleDeviation(currentPointCloud_o3d)
         
         object_features.append([height, volume, avg_height, area, ratio, planarity, rectangle_deviation])
-
-        #object_features.append([height, avg_height, num_planes])
         
         i += 1
         #print(str(i) + " height: " + str(height) + " volume: " + str(volume) + " average height: " + str(avg_height) + " area: " + str(area) + " ratio: " + str(ratio) + " num planes: " + str(planarity) + " rectangularity: " + str(rectangle_deviation))
 
-    # final_features = normalize_features(np.array(object_features))
-    # print(final_features)
+    object_features_normalized = np.array(object_features)
+    object_features_normalized = normalize_features(object_features_normalized)
+    print(object_features_normalized)
 
-    # rectangle_deviation_list = []
-
-    # for cloud in final_features:
-    #     rectangle_deviation = cloud[1] / cloud[6]
-    #     print(rectangle_deviation)
-    #     rectangle_deviation_list.append(rectangle_deviation)
-    
-    # final_features = final_features.remove[:,6]
-
-    return object_features
+    return object_features_normalized
 
 #Get current point cloud and save to new array
 def currentPC(pointCloudDirectory, pc):
@@ -136,49 +124,6 @@ def normalize_features(object_features):
         normalized_feature = normalized_feature / max
         all_normalized_features[:,i] = normalized_feature
     return all_normalized_features
-
-#Feature 7: proportion of plan to bounding box
-def rectangleDeviation(allpoints):
-
-    allpoints_arrayZero = np.asarray(allpoints.points)
-    for point in allpoints_arrayZero:
-        point[2] = 0
-    
-    #Visualize Flat Point Cloud
-    # flatZero_pc = o3d.geometry.PointCloud()
-    # flatZero_pc.points = o3d.utility.Vector3dVector(allpoints_arrayZero)
-    # o3d.visualization.draw_geometries([flatZero_pc])
-    
-    allpoints_arrayOne = allpoints_arrayZero.copy()
-
-    for point in allpoints_arrayOne:
-        point[2] = 1
-
-    allpoints_array = np.concatenate((allpoints_arrayZero,allpoints_arrayOne))
-    
-    flat_pc = o3d.geometry.PointCloud()
-    flat_pc.points = o3d.utility.Vector3dVector(allpoints_array)
-
-    #for visualizing volume vs boundign box
-    convhull_flat, _ = flat_pc.compute_convex_hull()
-    convhull_flat_lns = o3d.geometry.LineSet.create_from_triangle_mesh(convhull_flat)
-    convhull_flat_lns.paint_uniform_color((0, 1, 1))
-
-    twoD_volume = convhull_flat.get_volume() / 10
-
-    bBox_flat = flat_pc.get_axis_aligned_bounding_box()
-    bBox_flat.color = (1, 0, 0)
-
-    bBox_volume = o3d.geometry.AxisAlignedBoundingBox.volume(bBox_flat)
-
-    rectangle_deviation = twoD_volume / bBox_volume
-
-    #visualize convex hull and bounding box
-    o3d.visualization.draw_geometries([flat_pc, convhull_flat_lns, bBox_flat])
-
-    print('rect', twoD_volume, bBox_volume, rectangle_deviation)
-
-    return rectangle_deviation
 
 #Get feature 1: Height
 def objectHeight(currentPointCloud):
@@ -275,6 +220,15 @@ def objectAverageHeight(currentPointCloud):
 
 #Get feature 5: Area of plan view
 def areaBase(pc):
+    #get area by projecting point cloud to 2d and using convex hull
+    allpoints_2D = np.asarray(pc.points)
+    allpoints_2D = np.delete(allpoints_2D, 2, 1)
+
+    hull = ConvexHull(allpoints_2D)
+
+    area = hull.volume
+
+    #project 2d point cloud to 0 and 1 height to calculate bbox for length to width ratio
     allpoints_arrayZero1 = np.asarray(pc.points).copy()
     for point in allpoints_arrayZero1:
         point[2] = 0
@@ -288,13 +242,6 @@ def areaBase(pc):
     
     flat_pc1 = o3d.geometry.PointCloud()
     flat_pc1.points = o3d.utility.Vector3dVector(allpoints_array1)
-
-    
-    convhull1, _ = flat_pc1.compute_convex_hull()
-    convhull1_lns = o3d.geometry.LineSet.create_from_triangle_mesh(convhull1)
-    convhull1_lns.paint_uniform_color((0, 0, 1))
-
-    area = convhull1.get_volume()
 
     bBox = flat_pc1.get_axis_aligned_bounding_box()
     bBox.color = (0, 0, 1)
@@ -310,3 +257,49 @@ def areaBase(pc):
     #visualize bounding box
     #o3d.visualization.draw_geometries([pc, bBox])
     return area, ratio
+
+#Feature 7: proportion of plan to bounding box
+def rectangleDeviation(allpoints):
+
+    allpoints_2D = np.asarray(allpoints.points)
+    allpoints_2D = np.delete(allpoints_2D, 2, 1)
+
+    hull = ConvexHull(allpoints_2D)
+
+    twoD_volume = hull.volume
+
+    allpoints_arrayZero = np.asarray(allpoints.points)
+    for point in allpoints_arrayZero:
+        point[2] = 0
+
+    #Visualize Flat Point Cloud
+    # flatZero_pc = o3d.geometry.PointCloud()
+    # flatZero_pc.points = o3d.utility.Vector3dVector(allpoints_arrayZero)
+    # o3d.visualization.draw_geometries([flatZero_pc])
+    
+    allpoints_arrayOne = allpoints_arrayZero.copy()
+
+    for point in allpoints_arrayOne:
+        point[2] = 1
+
+    allpoints_array = np.concatenate((allpoints_arrayZero,allpoints_arrayOne))
+    
+    flat_pc = o3d.geometry.PointCloud()
+    flat_pc.points = o3d.utility.Vector3dVector(allpoints_array)
+
+    # #for visualizing volume vs boundign box
+    # convhull_flat, _ = flat_pc.compute_convex_hull()
+    # convhull_flat_lns = o3d.geometry.LineSet.create_from_triangle_mesh(convhull_flat)
+    # convhull_flat_lns.paint_uniform_color((0, 1, 1))
+
+    bBox_flat = flat_pc.get_axis_aligned_bounding_box()
+    bBox_flat.color = (1, 0, 0)
+
+    bBox_volume = bBox_flat.volume()
+    rectangle_deviation = twoD_volume / bBox_volume
+
+    #visualize convex hull and bounding box
+    # convhullbbox = convhull_flat.get_axis_aligned_bounding_box().volume()
+    #o3d.visualization.draw_geometries([flat_pc, convhull_flat_lns, bBox_flat])
+
+    return rectangle_deviation
