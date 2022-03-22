@@ -44,6 +44,7 @@ def rf_Plot_max_depth(x_train, x_test, y_train, y_test):
         rf.fit(x_train, y_train)
         train_pred = rf.predict(x_train)
         false_positive_rate, true_positive_rate, thresholds = roc_curve(y_train, train_pred)
+        #keep getting NaN for roc_auc
         roc_auc = auc(false_positive_rate, true_positive_rate)
         train_results.append(roc_auc)
         y_pred = rf.predict(x_test)
