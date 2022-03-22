@@ -1,0 +1,28 @@
+-Violin graph for each parameter each label will be its own blob (SS)
+
+-pick 3 sets of 3 features to visualize in graph with color based on actual label
+
+-compare accuracy for 3 sets of 3, pick a set 4 and set of 5 and compare accuracy (LM)
+Average Height, Squareness
+Height, Average Height, Squareness
+Planarity, Squareness, Average Height
+ONE MORE SET OF 3
+Height, Average Height, Planarity, Squareness
+ONE MORE SET OF 5
+
+Required:
+SVM visualize learning curve and analyze (SS)
+RF visualize learning curve and analyze (LM)
+
+Testing to add class weight for a class that is commonly misclassified (YT)
+Showing mis-labeled results on 3D feature graph (YT)
+With the final selected parameters graph the following for RF and SVM (YT)
+RF:
+OA compared to n_estimator value (0 to 250)
+OA compared to tree depth value (0 to 35)
+OA compared to min sample split value (0 to 1)
+
+SVM:
+OA compared to kernel
+OA compared to C
+OA compared to Max_iter

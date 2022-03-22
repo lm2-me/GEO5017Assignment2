@@ -30,13 +30,13 @@ import RF
 #Main
 if __name__ == "__main__":
     ##add back for final code before submitting
-    # y_true = np.loadtxt('y_true.csv', dtype='str', delimiter='\n')
+    y_true = np.loadtxt('y_true.csv', dtype='str', delimiter='\n')
 
     # pointCloudDirectory = ft.importFiles()
     # object_features = ft.allObjectProperties(pointCloudDirectory)
 
 
-    dataload = np.loadtxt('features_norm_.csv', delimiter=',')
+    object_features = np.loadtxt('features_norm_new.csv', delimiter=',')
 
     ## = dataload[:,1:]
     
@@ -52,4 +52,5 @@ if __name__ == "__main__":
     print('Random Forest: Mean Per-Class Accuracy', rf_mpa)
     print('Random Forest: Confusion Matrix \n', rf_cm)
 
+    RF.learningcurve(object_features, y_true)
 
