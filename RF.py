@@ -31,10 +31,6 @@ def randomforest(X_train, X_test, y_train, y_test):
     #test classifier
     y_pred = clf.predict(X_test)
 
-    #correct_results = np.count_nonzero(y_pred == y_test)
-    #print(len(y_test))
-    #print(correct_results)
-
     return y_pred, y_test
 
 def learningcurve(features_only, y_true):

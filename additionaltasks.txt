@@ -1,16 +1,19 @@
 -Violin graph for each parameter each label will be its own blob (SS)
 
 -pick 3 sets of 3 features to visualize in graph with color based on actual label
-
--compare accuracy for 3 sets of 3, pick a set 4 and set of 5 and compare accuracy (LM)
-Average Height, Squareness
 Height, Average Height, Squareness
 Planarity, Squareness, Average Height
 ONE MORE SET OF 3
-Height, Average Height, Planarity, Squareness
+
+-compare accuracy for 3 sets of 3, pick a set 4 and set of 5 and compare accuracy (LM)
+{done} Average Height, Squareness
+{done} Height, Average Height, Squareness
+{done} Planarity, Squareness, Average Height
+ONE MORE SET OF 3
+{done} Height, Average Height, Planarity, Squareness
 ONE MORE SET OF 5
 
-Required:
+Required (code done, will need to export with final feature set):
 SVM visualize learning curve and analyze (SS)
 RF visualize learning curve and analyze (LM)
 
