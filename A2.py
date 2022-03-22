@@ -34,6 +34,9 @@ if __name__ == "__main__":
     pointCloudDirectory = ft.importFiles()
     object_features = ft.allObjectProperties(pointCloudDirectory)
 
+    cwd = os.getcwd()
+    np.savetxt('features_norm_new.csv', object_features, delimiter=',')
+
     ##dataload = np.loadtxt('features_norm.csv', delimiter=',')
 
     ## = dataload[:,1:]
