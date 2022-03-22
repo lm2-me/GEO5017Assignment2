@@ -29,15 +29,14 @@ import RF
 
 #Main
 if __name__ == "__main__":
-    y_true = np.loadtxt('y_true.csv', dtype='str', delimiter='\n')
+    ##add back for final code before submitting
+    # y_true = np.loadtxt('y_true.csv', dtype='str', delimiter='\n')
 
-    pointCloudDirectory = ft.importFiles()
-    object_features = ft.allObjectProperties(pointCloudDirectory)
+    # pointCloudDirectory = ft.importFiles()
+    # object_features = ft.allObjectProperties(pointCloudDirectory)
 
-    cwd = os.getcwd()
-    np.savetxt('features_norm_new.csv', object_features, delimiter=',')
 
-    ##dataload = np.loadtxt('features_norm.csv', delimiter=',')
+    dataload = np.loadtxt('features_norm_.csv', delimiter=',')
 
     ## = dataload[:,1:]
     
