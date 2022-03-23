@@ -48,7 +48,10 @@ if __name__ == "__main__":
     #object_features6 = object_features[:,[0,2,5,6]]
     #Height, Average Height, Ratio, Planarity, Squareness  [0, 2, 4, 5, 6]
     #object_features7 = object_features[:,[0,2,4,5,6]]
-    
+    #Height, Average Height, Area, Ratio, Planarity, Squareness  [0, 2, 3, 4, 5, 6]
+    #object_features7 = object_features[:,[0,2,3,4,5,6]]
+
+       
     #Random Forest
     X_train, X_test, y_train, y_test = RF.splitdata(object_features3, y_true)
     y_predRF, y_testRF = RF.randomforest(X_train, X_test, y_train, y_test)
