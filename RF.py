@@ -4,6 +4,9 @@ from sklearn.ensemble import RandomForestClassifier
 from sklearn.datasets import make_classification
 from sklearn.model_selection import train_test_split
 from sklearn import svm
+from sklearn.metrics import roc_curve, auc
+import Evaluation as ev
+from matplotlib.legend_handler import HandlerLine2D
 
 
 
@@ -11,7 +14,7 @@ def splitdata(features_only, y_true):
     X = features_only
     y = y_true
 
-    X_train, X_test, y_train, y_test = train_test_split(X, y, test_size=0.4)
+    X_train, X_test, y_train, y_test = train_test_split(X, y, test_size=0.4, random_state=42)
 
     return X_train, X_test, y_train, y_test
 
@@ -21,11 +24,15 @@ def randomforest(X_train, X_test, y_train, y_test):
     #max_depth and min_samples_leaf do not need to be set because our data set is small
 
     #create classifier object
-    clf = RandomForestClassifier(n_estimators=200, criterion='gini', max_features='auto', bootstrap=True, max_samples=None, max_depth=4)
+    clf = RandomForestClassifier(n_estimators=200, criterion='gini', max_features='auto', bootstrap=True, max_samples=None, max_depth=2, random_state=0)
     #train classifier object
     clf.fit(X_train, y_train)
     #test classifier
     y_pred = clf.predict(X_test)
+
+    #correct_results = np.count_nonzero(y_pred == y_test)
+    #print(len(y_test))
+    #print(correct_results)
 
     return y_pred, y_test
 
@@ -58,16 +65,15 @@ def rf_Plot_n_estiamators(x_train, x_test, y_train, y_test):
     train_results = []
     test_results = []
     for estimator in n_estimators:
-        rf = RandomForestClassifier(n_estimators=estimator, n_jobs=-1)
+        rf = RandomForestClassifier(n_estimators=estimator)
         rf.fit(x_train, y_train)
         train_pred = rf.predict(x_train)
-        false_positive_rate, true_positive_rate, thresholds = roc_curve(y_train, train_pred)
-        roc_auc = auc(false_positive_rate, true_positive_rate)
-        train_results.append(roc_auc)
-        y_pred = rf.predict(x_test)
-        false_positive_rate, true_positive_rate, thresholds = roc_curve(y_test, y_pred)
-        roc_auc = auc(false_positive_rate, true_positive_rate)
-        test_results.append(roc_auc)
+        rf_oa_train = ev.overallAccuracy(y_train, train_pred)
+        train_results.append(rf_oa_train)
+        test_pred = rf.predict(x_test)
+        rf_oa_test = ev.overallAccuracy(y_test, test_pred)
+        test_results.append(rf_oa_test)
+
     from matplotlib.legend_handler import HandlerLine2D
     line1, = plt.plot(n_estimators, train_results, 'b', label="Train AUC")
     line2, = plt.plot(n_estimators, test_results, 'r', label="Test AUC")
