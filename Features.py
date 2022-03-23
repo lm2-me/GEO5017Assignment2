@@ -74,7 +74,7 @@ def currento3dPCfile(pc):
 def allObjectProperties(pointCloudDirectory):
     i = 0
     object_features = []
-    pc_list = list(pointCloudDirectory)[:20]
+    pc_list = list(pointCloudDirectory)
     print('Evaluating point cloud features')
     for pc in pc_list:
         print ('now working on point cloud', str(pc), end="\r")

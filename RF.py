@@ -5,6 +5,7 @@ from sklearn.datasets import make_classification
 from sklearn.model_selection import train_test_split
 from sklearn import svm
 from sklearn.metrics import roc_curve, auc
+import Evaluation as ev
 from matplotlib.legend_handler import HandlerLine2D
 
 
@@ -40,17 +41,19 @@ def rf_Plot_max_depth(x_train, x_test, y_train, y_test):
     train_results = []
     test_results = []
     for max_depth in max_depths:
-        rf = RandomForestClassifier(max_depth=max_depth, n_jobs=-1)
+        rf = RandomForestClassifier(max_depth=max_depth)
         rf.fit(x_train, y_train)
         train_pred = rf.predict(x_train)
-        false_positive_rate, true_positive_rate, thresholds = roc_curve(y_train, train_pred)
-        #keep getting NaN for roc_auc
-        roc_auc = auc(false_positive_rate, true_positive_rate)
-        train_results.append(roc_auc)
-        y_pred = rf.predict(x_test)
-        false_positive_rate, true_positive_rate, thresholds = roc_curve(y_test, y_pred)
-        roc_auc = auc(false_positive_rate, true_positive_rate)
-        test_results.append(roc_auc)
+        # false_positive_rate, true_positive_rate, thresholds = roc_curve(y_train, train_pred)
+        # keep getting NaN for roc_auc
+        # roc_auc = auc(false_positive_rate, true_positive_rate)
+        rf_oa_train = ev.overallAccuracy(y_train, train_pred)
+        train_results.append(rf_oa_train)
+        test_pred = rf.predict(x_test)
+        # false_positive_rate, true_positive_rate, thresholds = roc_curve(y_test, test_pred)
+        # roc_auc = auc(false_positive_rate, true_positive_rate)
+        rf_oa_test = ev.overallAccuracy(y_test, test_pred)
+        test_results.append(rf_oa_test)
 
     line1, = plt.plot(max_depths, train_results, 'b', label ="Train AUC")
     line2, = plt.plot(max_depths, test_results, 'r', label ="Test AUC")
@@ -64,16 +67,15 @@ def rf_Plot_n_estiamators(x_train, x_test, y_train, y_test):
     train_results = []
     test_results = []
     for estimator in n_estimators:
-        rf = RandomForestClassifier(n_estimators=estimator, n_jobs=-1)
+        rf = RandomForestClassifier(n_estimators=estimator)
         rf.fit(x_train, y_train)
         train_pred = rf.predict(x_train)
-        false_positive_rate, true_positive_rate, thresholds = roc_curve(y_train, train_pred)
-        roc_auc = auc(false_positive_rate, true_positive_rate)
-        train_results.append(roc_auc)
-        y_pred = rf.predict(x_test)
-        false_positive_rate, true_positive_rate, thresholds = roc_curve(y_test, y_pred)
-        roc_auc = auc(false_positive_rate, true_positive_rate)
-        test_results.append(roc_auc)
+        rf_oa_train = ev.overallAccuracy(y_train, train_pred)
+        train_results.append(rf_oa_train)
+        test_pred = rf.predict(x_test)
+        rf_oa_test = ev.overallAccuracy(y_test, test_pred)
+        test_results.append(rf_oa_test)
+
     from matplotlib.legend_handler import HandlerLine2D
     line1, = plt.plot(n_estimators, train_results, 'b', label="Train AUC")
     line2, = plt.plot(n_estimators, test_results, 'r', label="Test AUC")

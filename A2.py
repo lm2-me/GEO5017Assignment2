@@ -35,13 +35,14 @@ if __name__ == "__main__":
     y_true = np.loadtxt('y_true.csv', dtype='str', delimiter='\n')
 
     pointCloudDirectory = ft.importFiles()
-    object_features = np.array(ft.allObjectProperties(pointCloudDirectory))
-    features_only = ft.normalize_features(object_features)
-    print(features_only)
+    # object_features = np.array(ft.allObjectProperties(pointCloudDirectory))
+    # features_only = ft.normalize_features(object_features)
+    # print(features_only)
 
-    ##dataload = np.loadtxt('features_norm.csv', delimiter=',')
+    dataload = np.loadtxt('features_norm.csv', delimiter=',')
 
-    ## = dataload[:,1:]
+    features_only = dataload[:,1:]
+
     #labeling the data
     labelen = preprocessing.LabelEncoder()
     labelen = labelen.fit_transform(y_true)
@@ -50,7 +51,7 @@ if __name__ == "__main__":
 
 
     #####
-    X_train, X_test, y_train, y_test = RF.splitdata(features_only, labelen[:20])
+    X_train, X_test, y_train, y_test = RF.splitdata(features_only, y_true)
     y_predRF, y_testRF = RF.randomforest(X_train, X_test, y_train, y_test)
     RF.rf_Plot_max_depth(X_train, X_test, y_train, y_test)
     RF.rf_Plot_n_estiamators(X_train, X_test, y_train, y_test)
