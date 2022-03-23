@@ -1,4 +1,4 @@
--Violin graph for each parameter each label will be its own blob (SS)
+{done}-Violin graph for each parameter each label will be its own blob (SS)
 
 -pick 3 sets of 3 features to visualize in graph with color based on actual label
 Height, Average Height, Squareness
@@ -14,7 +14,7 @@ ONE MORE SET OF 3
 ONE MORE SET OF 5
 
 Required (code done, will need to export with final feature set):
-SVM visualize learning curve and analyze (SS)
+{done} SVM visualize learning curve and analyze (SS)
 RF visualize learning curve and analyze (LM)
 
 Testing to add class weight for a class that is commonly misclassified (YT)
@@ -26,6 +26,6 @@ OA compared to tree depth value (0 to 35)
 OA compared to min sample split value (0 to 1)
 
 SVM:
-OA compared to kernel
-OA compared to C
-OA compared to Max_iter
+{done} OA compared to kernel
+{done} OA compared to C
+{done} OA compared to Max_iter
