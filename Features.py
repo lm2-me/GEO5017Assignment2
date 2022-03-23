@@ -74,8 +74,9 @@ def currento3dPCfile(pc):
 def allObjectProperties(pointCloudDirectory):
     i = 0
     object_features = []
+    pc_list = list(pointCloudDirectory)
     print('Evaluating point cloud features')
-    for pc in pointCloudDirectory:
+    for pc in pc_list:
         print ('now working on point cloud', str(pc), end="\r")
 
         #Get current point cloud
@@ -160,6 +161,7 @@ def convexHull(pc):
     convhull_lns = o3d.geometry.LineSet.create_from_triangle_mesh(convhull)
     convhull_lns.paint_uniform_color((0, 0, 1))
 
+    # euler = convhull.euler_poincare_characteristic()
     #visualize convex hull
     #o3d.visualization.draw_geometries([pc, convhull_lns])
     

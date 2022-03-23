@@ -10,6 +10,9 @@ import Features as ft
 import Evaluation as ev
 import SVM
 import RF
+# import preprocessing from sklearn
+from sklearn import preprocessing
+
 
 
 # ### import csv file to read features, remove before sumbitting
@@ -34,13 +37,16 @@ import RF
 if __name__ == "__main__":
     ##add back for final code before submitting
     y_true = np.loadtxt('y_true.csv', dtype='str', delimiter='\n')
+    object_features = np.loadtxt('features_norm_new.csv', delimiter=',')
+
+    #labeling the data
+    labelen = preprocessing.LabelEncoder()
+    labelen = labelen.fit_transform(y_true)
+    # onehot = preprocessing.OneHotEncoder()
+    # label_onehot = onehot.fit_transform(labelen.reshape(-1,1))
 
     # pointCloudDirectory = ft.importFiles()
     # object_features = ft.allObjectProperties(pointCloudDirectory)
-
-    object_features = np.loadtxt('features_norm_new.csv', delimiter=',')
-
-    ## = dataload[:,1:]
 
     #Average Height, Squareness [2, 6]
     #object_features1 = object_features[:,[2,6]]
@@ -60,6 +66,9 @@ if __name__ == "__main__":
     #Random Forest
     X_train, X_test, y_train, y_test = RF.splitdata(object_features4, y_true)
     y_predRF, y_testRF = RF.randomforest(X_train, X_test, y_train, y_test)
+    RF.rf_Plot_max_depth(X_train, X_test, y_train, y_test)
+    RF.rf_Plot_n_estiamators(X_train, X_test, y_train, y_test)
+
 
     rf_oa = ev.overallAccuracy(y_testRF, y_predRF)
     rf_mpa = ev.meanPerClassAccuracy(y_testRF, y_predRF)
