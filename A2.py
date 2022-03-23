@@ -43,20 +43,22 @@ if __name__ == "__main__":
     ## = dataload[:,1:]
 
     #Average Height, Squareness [2, 6]
-    object_features1 = object_features[:,[2,6]]
+    #object_features1 = object_features[:,[2,6]]
     #Height, Average Height, Squareness [0, 2, 6]
-    object_features2 = object_features[:,[0,2,6]]
-    #Average Height, Planarity, Squareness [0, 5, 6]
-    object_features3 = object_features[:,[0,5,6]]
-    #Set of 3 [0, 0, 0]
-    object_features4 = object_features[:,[0,0,0]]
+    #object_features2 = object_features[:,[0,2,6]]
+    #Height, Planarity, Squareness [0, 5, 6]
+    #object_features2a = object_features[:,[0,5,6]]
+    #Average Height, Planarity, Squareness [2, 5, 6]
+    object_features3 = object_features[:,[2,5,6]]
+    #Average Height, Ratio, Squareness [2, 4, 6]
+    object_features4 = object_features[:,[2,4,6]]
     #Height, Average Height, Planarity, Squareness [0, 2, 5, 6]
     object_features5 = object_features[:,[0,2,5,6]]
-    #Set of 5  [0, 0, 0, 0, 0]
-    object_features6 = object_features[:,[0,0,0,0,0]]
+    #Height, Average Height, Ratio, Planarity, Squareness  [0, 2, 4, 5, 6]
+    object_features6 = object_features[:,[0,2,4,5,6]]
     
     #Random Forest
-    X_train, X_test, y_train, y_test = RF.splitdata(object_features, y_true)
+    X_train, X_test, y_train, y_test = RF.splitdata(object_features4, y_true)
     y_predRF, y_testRF = RF.randomforest(X_train, X_test, y_train, y_test)
 
     rf_oa = ev.overallAccuracy(y_testRF, y_predRF)
@@ -70,7 +72,7 @@ if __name__ == "__main__":
     #RF.learningcurve(object_features, y_true)
 
     #SVM
-    X_trainSVM, X_testSVM, y_trainSVM, y_testSVM = SVM.splitdata(object_features5, y_true)
+    X_trainSVM, X_testSVM, y_trainSVM, y_testSVM = SVM.splitdata(object_features4, y_true)
     y_predSVM, y_testSVM = SVM.support_vector_machine(X_trainSVM, X_testSVM, y_trainSVM, y_testSVM)
 
     svm_oa = ev.overallAccuracy(y_testSVM, y_predSVM)

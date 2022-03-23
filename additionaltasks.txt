@@ -9,9 +9,9 @@ ONE MORE SET OF 3
 {done} Average Height, Squareness
 {done} Height, Average Height, Squareness
 {done} Planarity, Squareness, Average Height
-ONE MORE SET OF 3
+average height, ratio, and squareness
 {done} Height, Average Height, Planarity, Squareness
-ONE MORE SET OF 5
+Height, Average Height, Ratio, Planarity, Squareness
 
 Required (code done, will need to export with final feature set):
 SVM visualize learning curve and analyze (SS)
