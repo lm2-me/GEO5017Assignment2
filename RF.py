@@ -82,7 +82,7 @@ def rf_Plot_max_depth(x_train, x_test, y_train, y_test):
     train_results = []
     test_results = []
     for max_depth in max_depths:
-        rf = RandomForestClassifier(max_depth=max_depth)
+        rf = RandomForestClassifier(n_estimators=200, criterion='gini', max_features='auto', bootstrap=True, max_samples=None, max_depth=max_depth)
         rf.fit(x_train, y_train)
         train_pred = rf.predict(x_train)
         # false_positive_rate, true_positive_rate, thresholds = roc_curve(y_train, train_pred)
@@ -98,6 +98,9 @@ def rf_Plot_max_depth(x_train, x_test, y_train, y_test):
 
     line1, = plt.plot(max_depths, train_results, 'b', label ="Train Overall accuracy")
     line2, = plt.plot(max_depths, test_results, 'r', label ="Test Overall accuracy")
+   
+    plt.scatter(max_depths, train_results)
+    plt.scatter(max_depths, test_results)
     plt.legend(handler_map={line1: HandlerLine2D(numpoints=2)})
     plt.ylabel('Overall accuracy')
     plt.xlabel('Tree depth')
