@@ -5,10 +5,11 @@ import matplotlib.pyplot as plt
 import os
 
 from sklearn import svm
-
+import SVM
 import Features as ft
 import Evaluation as ev
-import SVM
+import Yu_SVM as svm
+import Yu_graph_lables as svm_graph
 import RF
 # import preprocessing from sklearn
 from sklearn import preprocessing
@@ -37,20 +38,26 @@ from sklearn import preprocessing
 if __name__ == "__main__":
     ##add back for final code before submitting
     y_true = np.loadtxt('y_true.csv', dtype='str', delimiter='\n')
-    object_features = np.loadtxt('features_norm_new.csv', delimiter=',')
+
+    # object_features = np.array(ft.allObjectProperties(pointCloudDirectory))
+    # features_only = ft.normalize_features(object_features)
+    # print(features_only)
+    svm
+    svm_graph
+    svm.graph_svm()
 
     #labeling the data
     labelen = preprocessing.LabelEncoder()
     labelen = labelen.fit_transform(y_true)
     # onehot = preprocessing.OneHotEncoder()
     # label_onehot = onehot.fit_transform(labelen.reshape(-1,1))
-
+    object_features = np.loadtxt('features_norm_new.csv', delimiter=',')
     pointCloudDirectory = ft.importFiles()
     # object_features = np.array(ft.allObjectProperties(pointCloudDirectory))
     # features_only = ft.normalize_features(object_features)
     # print(features_only)
 
-    object_features = np.loadtxt('features_norm_new.csv', delimiter=',')
+
 
     ## = dataload[:,1:]
 
@@ -66,7 +73,7 @@ if __name__ == "__main__":
     object_features5 = object_features[:,[0,2,5,6]]
     #Set of 5  [0, 0, 0, 0, 0]
     object_features6 = object_features[:,[0,0,0,0,0]]
-    
+
     #Random Forest
     X_train, X_test, y_train, y_test = RF.splitdata(object_features, y_true)
     y_predRF, y_testRF = RF.randomforest(X_train, X_test, y_train, y_test)

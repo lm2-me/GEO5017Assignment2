@@ -22,9 +22,13 @@ ax.set_ylim(0,0.8)
 ax.set_zlim(0, 0.8)
 
 for m, c, a in [('o',0, 0.5), ('^',1, 1), ('*',2, 1),('s',3, 1),('p',4, 1)]:
-    xs = [dataload[i,6] for i, num_value in enumerate(dataload[:,0]) if int(clusters[i]) == int(c)]
-    ys = [dataload[i,2] for i, num_value in enumerate(dataload[:,0]) if int(clusters[i]) == int(c)]
-    zs = [dataload[i,0] for i, num_value in enumerate(dataload[:,0]) if int(clusters[i]) == int(c)]
+    print(m, '|', c, '|', a)
+    xs = [dataload[i,6] for i, num_value in enumerate(dataload[:,0])
+          if int(clusters[i]) == int(c)]
+    ys = [dataload[i,2] for i, num_value in enumerate(dataload[:,0])
+          if int(clusters[i]) == int(c)]
+    zs = [dataload[i,0] for i, num_value in enumerate(dataload[:,0])
+          if int(clusters[i]) == int(c)]
     ax.scatter(xs, ys, zs, marker=m, alpha=a)
 
 ax.set_xlabel('Squareness')
