@@ -55,8 +55,8 @@ if __name__ == "__main__":
     #Random Forest
     X_train, X_test, y_train, y_test = RF.splitdata(object_features3, y_true)
     y_predRF, y_testRF = RF.randomforest(X_train, X_test, y_train, y_test)
-    RF.rf_Plot_max_depth(X_train, X_test, y_train, y_test)
-    RF.rf_Plot_n_estiamators(X_train, X_test, y_train, y_test)
+    #RF.rf_Plot_max_depth(X_train, X_test, y_train, y_test)
+    #RF.rf_Plot_n_estiamators(X_train, X_test, y_train, y_test)
 
 
     rf_oa = ev.overallAccuracy(y_testRF, y_predRF)
@@ -67,7 +67,8 @@ if __name__ == "__main__":
     print('Random Forest: Mean Per-Class Accuracy', rf_mpa)
     print('Random Forest: Confusion Matrix \n', rf_cm)
 
-    #RF.learningcurve(object_features, y_true)
+    #Visualize Learning Curve
+    RF.learningcurve(object_features3, y_true)
 
     #SVM
     X_trainSVM, X_testSVM, y_trainSVM, y_testSVM = SVM.splitdata(object_features3, y_true)

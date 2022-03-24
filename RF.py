@@ -46,7 +46,7 @@ def learningcurve(features_only, y_true):
         X_train, X_test, y_train, y_test = train_test_split(X, y, test_size=test_size)
 
         #create classifier object
-        clf = RandomForestClassifier(n_estimators=200, criterion='gini', max_features='auto', bootstrap=True, max_samples=None, max_depth=4)
+        clf = RandomForestClassifier(n_estimators=200, criterion='gini', max_features='auto', bootstrap=True, max_samples=None)
         #train classifier object
         clf.fit(X_train, y_train)
         #test classifier
@@ -66,11 +66,11 @@ def learningcurve(features_only, y_true):
     AO = np.array(AO)
 
     #second order log fit line to data
-    log_fit = np.polyfit(np.log(test_size_neg), AO, 2)
-    y_line = log_fit[0] * np.log(test_size_neg) ** 2 + log_fit[1] * np.log(test_size_neg) + log_fit[2]
+    #log_fit = np.polyfit(np.log(test_size_neg), AO, 2)
+    #y_line = log_fit[0] * np.log(test_size_neg) ** 2 + log_fit[1] * np.log(test_size_neg) + log_fit[2]
     
     plt.scatter(test_size_neg, AO)
-    plt.plot(test_size_neg, y_line, 'r')
+    #plt.plot(test_size_neg, y_line, 'r')
     plt.xlabel('Percentage Training Data')
     plt.ylabel('Overall Accuracy')
     plt.show()

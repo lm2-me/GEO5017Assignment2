@@ -1,20 +1,6 @@
-{done}-Violin graph for each parameter each label will be its own blob (SS)
 
--pick 3 sets of 3 features to visualize in graph with color based on actual label
-Height, Average Height, Squareness
-Planarity, Squareness, Average Height
-ONE MORE SET OF 3
-
--compare accuracy for 3 sets of 3, pick a set 4 and set of 5 and compare accuracy (LM)
-{done} Average Height, Squareness
-{done} Height, Average Height, Squareness
-{done} Planarity, Squareness, Average Height
-average height, ratio, and squareness
-{done} Height, Average Height, Planarity, Squareness
-Height, Average Height, Ratio, Planarity, Squareness
 
 Required (code done, will need to export with final feature set):
-{done} SVM visualize learning curve and analyze (SS)
 RF visualize learning curve and analyze (LM)
 
 Testing to add class weight for a class that is commonly misclassified (YT)
