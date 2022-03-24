@@ -5,7 +5,6 @@
 import numpy as np
 import open3d as o3d
 import math as m
-
 from scipy.spatial import ConvexHull, convex_hull_plot_2d
 import matplotlib.pyplot as plt
 

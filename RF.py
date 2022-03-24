@@ -1,14 +1,12 @@
 import numpy as np
 import matplotlib.pyplot as plt
+from matplotlib.legend_handler import HandlerLine2D
 from sklearn.ensemble import RandomForestClassifier
 from sklearn.datasets import make_classification
 from sklearn.model_selection import train_test_split
 from sklearn import svm
 from sklearn.metrics import roc_curve, auc
 import Evaluation as ev
-from matplotlib.legend_handler import HandlerLine2D
-import math
-import scipy
 
 import Evaluation as ev
 

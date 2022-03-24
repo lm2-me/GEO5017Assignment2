@@ -4,8 +4,7 @@ from sklearn.ensemble import RandomForestClassifier
 from sklearn.datasets import make_classification
 from sklearn.model_selection import train_test_split
 from sklearn import svm
-import math
-import scipy
+
 import Evaluation as ev
 
 

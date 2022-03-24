@@ -2,15 +2,13 @@
 
 import numpy as np
 import matplotlib.pyplot as plt
-import os
-
 from sklearn import svm
+from sklearn import preprocessing
+
 import SVM
 import Features as ft
 import Evaluation as ev
 import RF
-# import preprocessing from sklearn
-from sklearn import preprocessing
 
 #save features to file
 # cwd = os.getcwd()
