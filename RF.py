@@ -96,10 +96,10 @@ def rf_Plot_max_depth(x_train, x_test, y_train, y_test):
         rf_oa_test = ev.overallAccuracy(y_test, test_pred)
         test_results.append(rf_oa_test)
 
-    line1, = plt.plot(max_depths, train_results, 'b', label ="Train AUC")
-    line2, = plt.plot(max_depths, test_results, 'r', label ="Test AUC")
+    line1, = plt.plot(max_depths, train_results, 'b', label ="Train Overall accuracy")
+    line2, = plt.plot(max_depths, test_results, 'r', label ="Test Overall accuracy")
     plt.legend(handler_map={line1: HandlerLine2D(numpoints=2)})
-    plt.ylabel('AUC score')
+    plt.ylabel('Overall accuracy')
     plt.xlabel('Tree depth')
     plt.show()
 
@@ -118,10 +118,11 @@ def rf_Plot_n_estiamators(x_train, x_test, y_train, y_test):
         test_results.append(rf_oa_test)
 
     from matplotlib.legend_handler import HandlerLine2D
-    line1, = plt.plot(n_estimators, train_results, 'b', label="Train AUC")
-    line2, = plt.plot(n_estimators, test_results, 'r', label="Test AUC")
+    line1, = plt.plot(n_estimators, train_results, 'b', label="Train Overall accuracy")
+    line2, = plt.plot(n_estimators, test_results, 'r', label="Test Overall accuracy")
     plt.legend(handler_map={line1: HandlerLine2D(numpoints=2)})
-    plt.ylabel('AUC score')
+    plt.ylabel('Overall accuracy')
     plt.xlabel('n_estimators')
+    plt.show()
 
     
