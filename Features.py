@@ -74,12 +74,10 @@ def currento3dPCfile(pc):
 def allObjectProperties(pointCloudDirectory):
     i = 0
     object_features = []
-    pc_list = list(pointCloudDirectory)[:20]
-    print('Evaluating point cloud features')
-    for pc in pc_list:
-        print ('now working on point cloud', str(pc), end="\r")
 
-        ###remove before submitting
+    print('Evaluating point cloud features')
+    for pc in pointCloudDirectory:
+        print ('now working on point cloud', str(pc), end="\r")
 
         #Get current point cloud
         currentPointCloud = currentPC(pointCloudDirectory, pc)
@@ -88,7 +86,6 @@ def allObjectProperties(pointCloudDirectory):
         #Visualize Point Cloud
         #visualizePC(pc)
 
-        
         #Get properties by calling related function, only getting 3 best features after analysis of all features
         height = objectHeight(currentPointCloud)
         volume = convexHull(currentPointCloud_o3d)
@@ -97,9 +94,8 @@ def allObjectProperties(pointCloudDirectory):
         planarity = planarityPC(currentPointCloud_o3d)
         rectangle_deviation = rectangleDeviation(currentPointCloud_o3d)
 
-        object_features.append([height, volume, avg_height, area, ratio, rectangle_deviation])
-        #object_features.append([height, avg_height, num_planes])
-        
+        object_features.append([height, volume, avg_height, area, ratio, planarity, rectangle_deviation])
+
         i += 1
         #print(str(i) + " height: " + str(height) + " volume: " + str(volume) + " average height: " + str(avg_height) + " area: " + str(area) + " ratio: " + str(ratio) + " num planes: " + str(num_planes))
 
@@ -125,47 +121,6 @@ def normalize_features(object_features):
         normalized_feature = normalized_feature / max
         all_normalized_features[:,i] = normalized_feature
     return all_normalized_features
-
-def rectangleDeviation(allpoints):
-
-    allpoints_arrayZero = np.asarray(allpoints.points)
-    for point in allpoints_arrayZero:
-        point[2] = 0
-    
-    allpoints_arrayOne = allpoints_arrayZero.copy()
-
-    for point in allpoints_arrayOne:
-        point[2] = 1
-
-    allpoints_array = np.concatenate((allpoints_arrayZero,allpoints_arrayOne))
-    
-    flat_pc = o3d.geometry.PointCloud()
-    flat_pc.points = o3d.utility.Vector3dVector(allpoints_array)
-
-    
-    convhull, _ = flat_pc.compute_convex_hull()
-    convhull_lns = o3d.geometry.LineSet.create_from_triangle_mesh(convhull)
-    convhull_lns.paint_uniform_color((0, 0, 1))
-
-    twoD_volume = convhull.get_volume()
-
-    bBox = flat_pc.get_axis_aligned_bounding_box()
-    bBox.color = (0, 0, 1)
-
-    min = bBox.get_min_bound()
-    max = bBox.get_max_bound()
-
-    length = max[0] - min[0]
-    width = max[1] - min[1]
-
-    bBox_area = length * width   
-    
-    rectangle_deviation = twoD_volume / bBox_area
-
-    #visualize convex hull
-    #o3d.visualization.draw_geometries([flat_pc, convhull,bBox])
-
-    return rectangle_deviation
 
 #Get feature 1: Height
 def objectHeight(currentPointCloud):
@@ -215,7 +170,7 @@ def planarityPC(pc):
     numplanes = 0
     #get planes with o3d segment_plane
     
-    pcarray = np.asarray(pc.points)
+    pcarray = np.asarray(pc.points).copy()
     numpoints = len(pcarray)
 
     #accuracy
@@ -263,26 +218,27 @@ def objectAverageHeight(currentPointCloud):
 
 #Get feature 5: Area of plan view
 def areaBase(pc):
-    allpoints_arrayZero = np.asarray(pc.points)
-    for point in allpoints_arrayZero:
+    allpoints_arrayZero1 = np.asarray(pc.points).copy()
+
+    for point in allpoints_arrayZero1:
         point[2] = 0
     
-    allpoints_arrayOne = allpoints_arrayZero.copy()
+    allpoints_arrayOne1 = allpoints_arrayZero1.copy()
 
-    for point in allpoints_arrayOne:
+    for point in allpoints_arrayOne1:
         point[2] = 1
 
-    allpoints_array = np.concatenate((allpoints_arrayZero,allpoints_arrayOne))
+    allpoints_array1 = np.concatenate((allpoints_arrayZero1,allpoints_arrayOne1))
     
-    flat_pc = o3d.geometry.PointCloud()
-    flat_pc.points = o3d.utility.Vector3dVector(allpoints_array)
+    flat_pc1 = o3d.geometry.PointCloud()
+    flat_pc1.points = o3d.utility.Vector3dVector(allpoints_array1)
 
     
-    convhull, _ = flat_pc.compute_convex_hull()
-    convhull_lns = o3d.geometry.LineSet.create_from_triangle_mesh(convhull)
-    convhull_lns.paint_uniform_color((0, 0, 1))
+    convhull1, _ = flat_pc1.compute_convex_hull()
+    convhull1_lns = o3d.geometry.LineSet.create_from_triangle_mesh(convhull1)
+    convhull1_lns.paint_uniform_color((0, 0, 1))
 
-    area = convhull.get_volume()
+    area = convhull1.get_volume()
 
     bBox = pc.get_axis_aligned_bounding_box()
     bBox.color = (0, 0, 1)
@@ -342,5 +298,47 @@ def rectangleDeviation(allpoints):
     #visualize convex hull and bounding box
     # convhullbbox = convhull_flat.get_axis_aligned_bounding_box().volume()
     #o3d.visualization.draw_geometries([flat_pc, convhull_flat_lns, bBox_flat])
+
+    return rectangle_deviation
+
+#Feature 7: Squareness
+def rectangleDeviation(allpointsdev):
+
+    allpoints_arrayZero = np.asarray(allpointsdev.points).copy()
+    for point in allpoints_arrayZero:
+        point[2] = 0
+    
+    allpoints_arrayOne = allpoints_arrayZero.copy()
+
+    for point in allpoints_arrayOne:
+        point[2] = 1
+
+    allpoints_array = np.concatenate((allpoints_arrayZero,allpoints_arrayOne))
+    
+    flat_pc = o3d.geometry.PointCloud()
+    flat_pc.points = o3d.utility.Vector3dVector(allpoints_array)
+
+    
+    convhull, _ = flat_pc.compute_convex_hull()
+    convhull_lns = o3d.geometry.LineSet.create_from_triangle_mesh(convhull)
+    convhull_lns.paint_uniform_color((0, 0, 1))
+
+    twoD_volume = convhull.get_volume()
+
+    bBox = flat_pc.get_axis_aligned_bounding_box()
+    bBox.color = (0, 0, 1)
+
+    min = bBox.get_min_bound()
+    max = bBox.get_max_bound()
+
+    length = max[0] - min[0]
+    width = max[1] - min[1]
+
+    bBox_area = length * width   
+    
+    rectangle_deviation = twoD_volume / bBox_area
+
+    #visualize convex hull
+    #o3d.visualization.draw_geometries([flat_pc, convhull,bBox])
 
     return rectangle_deviation
