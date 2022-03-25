@@ -81,7 +81,7 @@ def graph_svm():
 
     for i, pred in enumerate(y_pred):
         if pred == y_test[i]:
-            list_correct.append( int(i))
+            list_correct.append(int(i))
 
     list_correct = np.sort(list_correct)
     # correct_data = X_test[int(list_correct)]
@@ -94,16 +94,16 @@ def graph_svm():
     ax.set_xlim(0.4, 1)
     ax.set_ylim(0, 0.8)
     ax.set_zlim(0, 0.8)
-    for i in range(len(dataload)):
+    for i in range(len(X_test)):
         if i in list_correct:
-            x_correct = dataload[i, 0]
-            y_correct = dataload[i, 1]
-            z_correct = dataload[i, 2]
+            x_correct = dataload[X_list_test[i], 0]
+            y_correct = dataload[X_list_test[i], 1]
+            z_correct = dataload[X_list_test[i], 2]
             ax.scatter(x_correct, y_correct, z_correct, marker='o', alpha=0.5, c='grey')
         if i not in list_correct:
-            x_error = dataload[i, 0]
-            y_error = dataload[i, 1]
-            z_error = dataload[i, 2]
+            x_error = dataload[X_list_test[i], 0]
+            y_error = dataload[X_list_test[i], 1]
+            z_error = dataload[X_list_test[i], 2]
             ax.scatter(x_error, y_error, z_error, marker='^', alpha=1, c='red')
 
     ax.set_xlabel('Squareness')
