@@ -1,10 +1,8 @@
 
 import numpy as np
 
-# Use these?
-# Overall accuracy
-# sklearn.metrics.accuracy_score(y_true, y_pred, *[, ...])
 
+# Overall accuracy
 def overallAccuracy(y_true, y_pred):
     n = len(y_true)
     accuracy = 0
@@ -32,8 +30,6 @@ def overallAccuracy(y_true, y_pred):
     return oa
 
 # Mean per-class accuracy
-# sklearn.metrics.balanced_accuracy_score(y_true, ...)
-
 def meanPerClassAccuracy(y_true, y_pred):
     accuracy = 0
     unique = np.unique(y_true)
@@ -66,8 +62,6 @@ def meanPerClassAccuracy(y_true, y_pred):
 
 
 # Confusion Matrix
-# sklearn.metrics.confusion_matrix(y_true, y_pred, *)
-
 def confusionMatrix(y_true, y_pred):
 
     unique = np.unique(y_true)
