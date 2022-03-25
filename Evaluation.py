@@ -1,6 +1,4 @@
-
 import numpy as np
-
 
 # Overall accuracy
 def overallAccuracy(y_true, y_pred):

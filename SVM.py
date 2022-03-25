@@ -7,9 +7,6 @@ from sklearn import svm
 
 import Evaluation as ev
 
-
-
-
 def splitdata(features_only, y_true):
     X = features_only
     y = y_true
